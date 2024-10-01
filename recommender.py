@@ -23,7 +23,6 @@ def display_project_overview():
     - Visualization and User interface development in Streamlit.
     """)
     st.markdown("---")
-    st.markdown("---")
 
 # --- Load and preprocess the skincare product dataset ---
 @st.cache_data
