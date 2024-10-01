@@ -16,13 +16,13 @@ def display_project_overview():
 
     **Key Features:**
     - Ingredient-based recommendations using Cosine Similarity.
-    - Interactive selection of products with real-time recommendations.
     
     **Skills Highlighted:**
     - Data wrangling and cleaning using Pandas.
     - Recommendation system using Scikit-learn.
     - Visualization and User interface development in Streamlit.
     """)
+    st.markdown("---")
     st.markdown("---")
 
 # --- Load and preprocess the skincare product dataset ---
