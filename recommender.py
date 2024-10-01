@@ -1,8 +1,15 @@
 import pandas as pd
 import streamlit as st
+import validators  # Library for validating URLs (install using `pip install validators`)
+
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+
+
+# --- Placeholder image URL ---
+PLACEHOLDER_IMAGE_URL = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5gw3cdavqQK__0yvmmnfE5kdQAHB8PxMYhQ&s'
+
 
 # --- Project Documentation Section ---
 def display_project_overview():
@@ -30,11 +37,25 @@ def display_project_overview():
 def load_data():
     df = pd.read_csv('skincare_products_2024_v2.csv')
     df['ingredients'] = df['ingredients'].apply(lambda x: x.strip("[]").replace("'", "").split(", "))
+    
+    # Replace missing or blank image URLs with the placeholder
+    df['product_image_url'] = df['product_image_url'].apply(lambda x: x if pd.notnull(x) and x.strip() != '' else PLACEHOLDER_IMAGE_URL)
+    
     return df
+
+# --- Validate Image URLs ---
+def validate_image_url(url):
+    """
+    Validate the image URL using the `validators` package.
+    If the URL is invalid, return the placeholder image URL.
+    """
+    if validators.url(url):
+        return url
+    else:
+        return PLACEHOLDER_IMAGE_URL
 
 # --- Recommends similar products based on cosine similarity of ingredients within the same product type ---
 def calculate_cosine_similarity(df, product_index, top_n=5, similarity_threshold=0.1):
-
     selected_product_type = df['product_type'].iloc[product_index]
     
     # Filter products by the same type and reset index
@@ -66,7 +87,6 @@ def calculate_cosine_similarity(df, product_index, top_n=5, similarity_threshold
 
 # --- Main function to control the user interface and recommendation system ---
 def main():
-
     df = load_data()
     
     # Display project documentation
@@ -91,10 +111,10 @@ def main():
         product_index = filtered_products_df[filtered_products_df['product_name'] == selected_product].index[0]
 
     with col2:
-        # Display the image of the selected product
+        # Display the image of the selected product (validate the URL before displaying)
         selected_product_image_url = filtered_products_df.loc[product_index, 'product_image_url']
-        if selected_product_image_url:
-            st.image(selected_product_image_url, width=150, caption=selected_product)
+        selected_product_image_url = validate_image_url(selected_product_image_url)
+        st.image(selected_product_image_url, width=150, caption=selected_product)
 
     # Input for number of recommendations and similarity threshold
     top_n = 5
@@ -108,7 +128,8 @@ def main():
             st.subheader("Recommended Products")
             # Display each recommended product with details and image
             for idx, row in recommended_products.iterrows():
-                st.image(row['product_image_url'], width=150)
+                product_image_url = validate_image_url(row['product_image_url'])
+                st.image(product_image_url, width=150)
                 st.markdown(f"**[{row['product_name']}]({row['product_url']})**")
                 st.write(f"Brand: {row['brand']}")
                 st.write(f"Rating: {row['product_rating']:.2f}")
