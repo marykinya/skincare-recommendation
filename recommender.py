@@ -7,9 +7,9 @@ from sklearn.metrics.pairwise import cosine_similarity
 # --- Project Documentation Section ---
 def display_project_overview():
 
-    st.header("Project Overview")
+    st.header("✨ Skincare Product Recommendations ✨")
     st.markdown("""
-    ### ✨ Skincare Product Recommendations: Discover Your Perfect Match ✨
+    ### Discover Your Perfect Match 
     
     This project is designed to recommend similar skincare products based on their ingredients. By utilizing **cosine similarity**, the system calculates the degree of similarity between different products, allowing users to discover alternatives that align with their skincare preferences.
 
