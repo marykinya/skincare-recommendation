@@ -9,18 +9,19 @@ def display_project_overview():
 
     st.header("Project Overview")
     st.markdown("""
-    ### Skincare Products Recommendations
-    This project aims to recommend similar skincare products based on their ingredients. Using cosine similarity, 
-    we calculate the closeness between different products and suggest alternatives that might interest users. 
-    The dataset used includes product names, types, ingredients, and other relevant information like ratings and prices.
-
-    **Key Features:**
-    - Ingredient-based recommendations using Cosine Similarity.
+    ### ✨ Skincare Product Recommendations: Discover Your Perfect Match ✨
     
-    **Skills Highlighted:**
-    - Data wrangling and cleaning using Pandas.
-    - Recommendation system using Scikit-learn.
-    - Visualization and User interface development in Streamlit.
+    This project is designed to recommend similar skincare products based on their ingredients. By utilizing **cosine similarity**, the system calculates the degree of similarity between different products, allowing users to discover alternatives that align with their skincare preferences.
+
+    With a comprehensive dataset containing:
+    - **Product Names** 🏷️
+    - **Product Types** 🛍️ (e.g., moisturizers, cleansers, and more)
+    - **Ingredients** 🧪 (because we know every ingredient matters!)
+    - **Ratings** ⭐ (so you can trust the quality)
+    - **Prices** 💰 (for making budget-friendly choices)
+    
+    My system helps you discover similar products that might just be the next best thing for your skincare routine.
+
     """)
     st.markdown("---")
 
