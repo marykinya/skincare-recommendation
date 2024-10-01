@@ -1,14 +1,12 @@
 import pandas as pd
 import streamlit as st
+
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-import altair as alt
 
 # --- Project Documentation Section ---
 def display_project_overview():
-    """
-    Display an overview of the project, detailing its purpose and implementation.
-    """
+
     st.header("Project Overview")
     st.markdown("""
     ### Skincare Products Recommendations
@@ -27,21 +25,16 @@ def display_project_overview():
     """)
     st.markdown("---")
 
-# --- Data Loading Section ---
+# --- Load and preprocess the skincare product dataset ---
 @st.cache_data
 def load_data():
-    """
-    Load and preprocess the skincare product dataset.
-    """
     df = pd.read_csv('skincare_products_2024_v2.csv')
     df['ingredients'] = df['ingredients'].apply(lambda x: x.strip("[]").replace("'", "").split(", "))
     return df
 
-# --- Similarity Calculation ---
+# --- Recommends similar products based on cosine similarity of ingredients within the same product type ---
 def calculate_cosine_similarity(df, product_index, top_n=5, similarity_threshold=0.1):
-    """
-    Recommends similar products based on cosine similarity of ingredients within the same product type.
-    """
+
     selected_product_type = df['product_type'].iloc[product_index]
     
     # Filter products by the same type and reset index
@@ -71,20 +64,14 @@ def calculate_cosine_similarity(df, product_index, top_n=5, similarity_threshold
     
     return pd.DataFrame(recommended_products)
 
-# --- User Interface Section ---
+# --- Main function to control the user interface and recommendation system ---
 def main():
-    """
-    Main function to control the user interface and recommendation system.
-    """
-    # Load data
+
     df = load_data()
     
     # Display project documentation
     display_project_overview()
 
-    # --- UI: Product Selection ---
-    # st.subheader("Product Recommendation System")
-    
     # Create two columns for better layout
     col1, col2 = st.columns([2, 1])
 
